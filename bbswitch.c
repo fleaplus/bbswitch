@@ -292,14 +292,14 @@ static int bbswitch_pci_runtime_suspend(struct device *dev)
     pr_info("disabling discrete graphics\n");
 
     /* Ensure that the audio driver knows not to touch us. */
-    vga_switcheroo_set_dynamic_switch(pdev, VGA_SWITCHEROO_OFF);
+    // vga_switcheroo_set_dynamic_switch(pdev, VGA_SWITCHEROO_OFF);
 
     bbswitch_optimus_dsm();
 
     /* Save state now that the device is still awake, makes PCI layer happy */
     pci_save_state(pdev);
     /* TODO if _PR3 is supported, should this be PCI_D3hot? */
-    pci_set_power_state(pdev, PCI_D3hot);
+    pci_set_power_state(pdev, PCI_D3cold);
     return 0;
 }
 
@@ -310,7 +310,7 @@ static int bbswitch_pci_runtime_resume(struct device *dev)
     pr_debug("Finishing runtime resume.\n");
 
     /* Resume audio driver. */
-    vga_switcheroo_set_dynamic_switch(pdev, VGA_SWITCHEROO_ON);
+    // vga_switcheroo_set_dynamic_switch(pdev, VGA_SWITCHEROO_ON);
     return 0;
 }
 
